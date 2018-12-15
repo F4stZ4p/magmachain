@@ -37,16 +37,24 @@ async def make_snapshot(website: str):
 async def main():
     return "OwO, what's this? Made by F4stZ4p#3507 and chr1s#7185 with ❤"
 
-@app.route("/v1/<website>")
-async def web_screenshot(website):
-    if not website.startswith("http"):
-        snap = await make_snapshot(f"https://{website}")
-    else:
-        snap = await make_snapshot(website)
+@app.route("/v1")
+async def web_screenshot():
+    
+    try:
+        website = request.headers.get("website")
+    except:
+        return jsonify({
+            "snapshot": "https://i.imgur.com/ZHPcdlW.jpg",
+            "website": "was not specified",
+            "status": request.status
+            })
+    
+    snapshot = await make_snapshot(website)
 
     return jsonify({
-        "snap": snap,
-        "website": website
+        "snapshot": snapshot,
+        "website": website,
+        "status": request.status
         })
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

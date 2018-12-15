@@ -6,7 +6,6 @@ import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
-import base64
 
 app = Quart(__name__)
 

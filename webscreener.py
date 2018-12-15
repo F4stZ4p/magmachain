@@ -43,7 +43,7 @@ async def make_snapshot(website: str):
             ) as r:
                 link = (await r.json())["data"]["link"]
 
-                return (link, newimg)
+                return link
 
 
 @app.route("/")
@@ -98,9 +98,9 @@ async def web_screenshot():
     if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
 
-    link, image = await make_snapshot(website)
+    link = await make_snapshot(website)
     try:
-        return jsonify({"snapshot": link, "website": website, "status": 200, "raw": base64.encodebytes(image.getvalue()).decode()})
+        return jsonify({"snapshot": link, "website": website, "status": 200})
     except Exception:
         return traceback.format_exc()
 

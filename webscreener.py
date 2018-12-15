@@ -37,7 +37,7 @@ async def make_snapshot(website: str):
 async def main():
     return "OwO, what's this? Made by F4stZ4p#3507 and chr1s#7185 with ❤"
 
-@app.route("/v1")
+@app.route("/v1", methods=["POST"])
 async def web_screenshot():
     
     

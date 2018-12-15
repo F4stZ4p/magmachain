@@ -1,7 +1,7 @@
 from quart import Quart
 from quart import request, jsonify
 import os
-
+import traceback
 import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
@@ -96,8 +96,9 @@ async def web_screenshot():
         website = f"http://{website}"
 
     link, image = await make_snapshot(website)
-
-    return jsonify({"snapshot": link, "website": website, "status": 200, "raw": image.getvalue().decode()})
-
+    try:
+        return jsonify({"snapshot": link, "website": website, "status": 200, "raw": image.getvalue().decode()})
+    except Exception:
+        return traceback.format_exc()
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

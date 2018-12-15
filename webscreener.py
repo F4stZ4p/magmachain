@@ -42,7 +42,7 @@ async def make_snapshot(website: str):
             ) as r:
                 link = (await r.json())["data"]["link"]
 
-                return link
+                return link, image
 
 
 @app.route("/")
@@ -99,7 +99,7 @@ async def web_screenshot():
 
     snapshot = await make_snapshot(website)
 
-    return jsonify({"snapshot": snapshot, "website": website, "status": 200})
+    return jsonify({"snapshot": snapshot[0], "website": website, "status": 200, "raw": snapshot[1].getvalue()})
 
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

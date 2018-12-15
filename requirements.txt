@@ -1,2 +1,2 @@
-git+https://github.com/huge-success/sanic
+quart
 arsenic

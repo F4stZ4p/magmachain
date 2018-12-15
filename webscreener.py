@@ -50,6 +50,9 @@ async def web_screenshot():
             "status": 404
             })
     
+    if not website.startswith("http"):
+        website = f"http://{website}"
+    
     snapshot = await make_snapshot(website)
 
     return jsonify({

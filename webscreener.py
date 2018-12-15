@@ -99,7 +99,7 @@ async def web_screenshot():
 
     link, image = await make_snapshot(website)
     try:
-        return jsonify({"snapshot": link, "website": website, "status": 200, "raw": image.getvalue().decode()})
+        return jsonify({"snapshot": link, "website": website, "status": 200, "raw": image.getvalue()})
     except Exception:
         return traceback.format_exc()
 

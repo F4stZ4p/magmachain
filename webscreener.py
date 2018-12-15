@@ -40,9 +40,10 @@ async def main():
 @app.route("/v1")
 async def web_screenshot():
     
-    try:
-        website = request.headers.get("website")
-    except:
+    
+    website = request.headers.get("website")
+    
+    if website is None:
         return jsonify({
             "snapshot": "https://i.imgur.com/ZHPcdlW.jpg",
             "website": "was not specified",

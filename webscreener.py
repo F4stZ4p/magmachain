@@ -16,7 +16,7 @@ browser = Chrome(
         "args": [
             "--headless",
             "--hide-scrollbars",
-            "--window-size=1366,768",
+            "--window-size=1920,1080",
             "--ipc-connection-timeout=10",
             "--max_old_space_size=20",
             "--disable-mojo-local-storage",

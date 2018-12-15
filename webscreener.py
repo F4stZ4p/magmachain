@@ -16,7 +16,9 @@ browser = Chrome(
         "args": [
             "--headless",
             "--hide-scrollbars",
-            "--window-size=1920,1080",
+            #"--no-gpu"
+            #"--disable-gpu"
+            "--window-size=1366,768",
             "--ipc-connection-timeout=10",
             "--max_old_space_size=20",
             "--disable-mojo-local-storage",
@@ -61,7 +63,7 @@ async def main():
         color:#FFFFFF
     }
     </style>
-    <title>Screenshot API</title>
+    <title>Web SnapShot API</title>
     <body style="background-color: #7289DA;text-align:center;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
     <h1>
     OwO, what's this? Made by F4stZ4p#3507 and chr1s#7185 with ❤

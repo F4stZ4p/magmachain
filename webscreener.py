@@ -50,7 +50,7 @@ async def web_screenshot():
             "status": 404
             })
     
-    if not website.startswith("http"):
+    if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
     
     snapshot = await make_snapshot(website)

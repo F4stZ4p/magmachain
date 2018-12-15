@@ -7,6 +7,7 @@ import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
+import base64
 
 app = Quart(__name__)
 
@@ -99,7 +100,7 @@ async def web_screenshot():
 
     link, image = await make_snapshot(website)
     try:
-        return jsonify({"snapshot": link, "website": website, "status": 200, "raw": image.getvalue()})
+        return jsonify({"snapshot": link, "website": website, "status": 200, "raw": base64.encodebytes(image.getvalue()).decode()})
     except Exception:
         return traceback.format_exc()
 

@@ -2,6 +2,7 @@ from quart import Quart
 from quart import request, jsonify
 import os
 import traceback
+import copy
 import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
@@ -29,6 +30,7 @@ async def make_snapshot(website: str):
         await session.get(website)
         image = await session.get_screenshot()
         image.seek(0)
+        newimg = copy.copy(image)
 
         async with aiohttp.ClientSession() as sess:
 
@@ -40,7 +42,7 @@ async def make_snapshot(website: str):
             ) as r:
                 link = (await r.json())["data"]["link"]
 
-                return (link, image)
+                return (link, newimg)
 
 
 @app.route("/")

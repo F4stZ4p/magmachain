@@ -101,7 +101,7 @@ async def web_screenshot():
     if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
 
-    link, image = await make_snapshot(website)
+    link = await make_snapshot(website)
     try:
         
         return jsonify({"snapshot": link, 

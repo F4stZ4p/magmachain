@@ -1,6 +1,7 @@
 from quart import Quart
 from quart import request, jsonify
 import os
+import gc
 import traceback
 import aiohttp
 from arsenic import get_session
@@ -40,6 +41,11 @@ async def make_snapshot(website: str):
             ) as r:
                 link = (await r.json())["data"]["link"]
 
+                gc.collect()
+                
+                del image
+                del sess
+                
                 return link
 
 
@@ -97,6 +103,7 @@ async def web_screenshot():
 
     link, image = await make_snapshot(website)
     try:
+        
         return jsonify({"snapshot": link, 
                         "website": website, 
                         "status": 200, 

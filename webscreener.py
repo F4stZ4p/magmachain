@@ -79,8 +79,8 @@ async def main():
     </html>
     """
 
-@app.route("/api/v1", methods=["POST"])
-@app.route("/v1", methods=["POST"])
+@app.route("/api/v1", methods=["POST", "GET"])
+@app.route("/v1", methods=["POST", "GET"])
 async def web_screenshot():
 
     website = request.headers.get("website")
@@ -99,7 +99,7 @@ async def web_screenshot():
 
     snapshot = await make_snapshot(website)
 
-    return jsonify({"snapshot": snapshot[0], "website": website, "status": 200, "raw": snapshot[1].getvalue.decode()})
+    return jsonify({"snapshot": snapshot[0], "website": website, "status": 200, "raw": snapshot[1].getvalue().decode()})
 
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

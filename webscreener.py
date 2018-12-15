@@ -47,7 +47,7 @@ async def web_screenshot():
         return jsonify({
             "snapshot": "https://i.imgur.com/ZHPcdlW.jpg",
             "website": "was not specified",
-            "status": request.status
+            "status": 404
             })
     
     snapshot = await make_snapshot(website)
@@ -55,7 +55,7 @@ async def web_screenshot():
     return jsonify({
         "snapshot": snapshot,
         "website": website,
-        "status": request.status
+        "status": 200
         })
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

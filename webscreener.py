@@ -99,7 +99,7 @@ async def web_screenshot():
 
     snapshot = await make_snapshot(website)
 
-    return jsonify({"snapshot": snapshot[0], "website": website, "status": 200, "raw": snapshot[1]})
+    return jsonify({"snapshot": snapshot[0], "website": website, "status": 200, "raw": snapshot[1].getvalue.decode()})
 
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

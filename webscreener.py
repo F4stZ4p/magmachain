@@ -20,6 +20,7 @@ browser = Chrome(
             "--window-size=1920,1080",
             "--no-gpu",
             "--ipc-connection-timeout=10",
+            "--max_old_space_size=20",
             "--disable-mojo-local-storage",
             ]
         }

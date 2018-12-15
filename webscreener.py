@@ -2,7 +2,6 @@ from quart import Quart
 from quart import request, jsonify
 import os
 import traceback
-import copy
 import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
@@ -31,7 +30,6 @@ async def make_snapshot(website: str):
         await session.get(website)
         image = await session.get_screenshot()
         image.seek(0)
-        newimg = copy.copy(image)
 
         async with aiohttp.ClientSession() as sess:
 
@@ -80,8 +78,8 @@ async def main():
     </html>
     """
 
-@app.route("/api/v1", methods=["POST", "GET"])
-@app.route("/v1", methods=["POST", "GET"])
+@app.route("/api/v1", methods=["POST"])
+@app.route("/v1", methods=["POST"])
 async def web_screenshot():
 
     website = request.headers.get("website")
@@ -98,10 +96,13 @@ async def web_screenshot():
     if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
 
-    link = await make_snapshot(website)
+    link, image = await make_snapshot(website)
     try:
-        return jsonify({"snapshot": link, "website": website, "status": 200})
+        return jsonify({"snapshot": link, 
+                        "website": website, 
+                        "status": 200, 
+                       })
     except Exception:
         return traceback.format_exc()
 
-app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)
+app.run(host="0.0.0.0", port=os.getenv("PORT"))

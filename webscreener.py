@@ -15,10 +15,8 @@ browser = Chrome(
     chromeOptions={
         "args": [
             "--headless",
-            "--disable-gpu",
             "--hide-scrollbars",
-            "--window-size=1920,1080",
-            "--no-gpu",
+            "--window-size=1366,768",
             "--ipc-connection-timeout=10",
             "--max_old_space_size=20",
             "--disable-mojo-local-storage",

@@ -12,7 +12,14 @@ app = Quart(__name__)
 async def make_snapshot(website: str):
     
     service = Chromedriver(log_file=os.devnull)
-    browser = Chrome(chromeOptions={ 'args': ['--headless', '--disable-gpu', '--hide-scrollbars', '--window-size=1920,1080', '--no-gpu' ] })
+    browser = Chrome(chromeOptions={ 'args': ['--headless', 
+                                              '--disable-gpu', 
+                                              '--hide-scrollbars', 
+                                              '--window-size=1920,1080', 
+                                              '--no-gpu',
+                                              '--ipc-connection-timeout=10',
+                                              '--disable-mojo-local-storage',
+                                             ] })
 
     async with get_session(service, browser) as session:
         await session.get(website)

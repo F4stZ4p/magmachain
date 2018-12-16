@@ -1,2 +1,4 @@
 quart
 arsenic
+psutil
+humanize

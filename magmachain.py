@@ -3,6 +3,8 @@ import gc
 import os
 import traceback
 
+import psutil
+import humanize
 import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
@@ -11,6 +13,8 @@ from quart import Quart, jsonify, request
 
 app = Quart(__name__)
 maincache = str()
+screen_count = 0
+process = psutil.Process()
 with open("main.html", "r") as f:
     maincache = f.read()
 
@@ -62,7 +66,6 @@ async def main():
 async def web_screenshot():
 
     website = request.headers.get("website")
-
     if website is None:
         return jsonify(
             {
@@ -76,7 +79,8 @@ async def web_screenshot():
         website = f"http://{website}"
 
     link = await make_snapshot(website)
-
+    global screen_count
+    screen_count += 1
     try:
         
         return jsonify({"snapshot": link, 
@@ -105,6 +109,10 @@ async def status():
                 Status<hr>
             </h1>
             {os.environ.get("STATUS")}
+            <hr><h1>Screenshots taken<hr>
+            {screen_count} screenshots!</h1>
+            <hr><h1>Memory usage<hr>
+            {humanize.naturalsize(process.memory_full_info().uss)}</h1>
         </body>
         </head>
     </html>

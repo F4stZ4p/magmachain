@@ -13,6 +13,7 @@ app = Quart(__name__)
 maincache = str()
 with open("main.html", "r") as f:
     maincache = f.read()
+screens = 0
 
 service = Chromedriver(log_file=os.devnull)
 browser = Chrome(
@@ -77,7 +78,7 @@ async def web_screenshot():
         website = f"http://{website}"
 
     link = await make_snapshot(website)
-
+    screens += 1
     try:
         
         return jsonify({"snapshot": link, 
@@ -101,11 +102,14 @@ async def status():
                 }}
             </style>
             <title>Screenshot API</title>
-        <body style="background-color: #7289DA;text-align: center;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+        <body style="background-color: #7289DA;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
             <h1>
                 Status<hr>
             </h1>
             {os.environ.get("STATUS")}
+            <hr>
+            <h1>Screenshots taken:<hr>
+            {screens}</h1>
         </body>
         </head>
     </html>

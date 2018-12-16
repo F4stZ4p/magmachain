@@ -99,7 +99,6 @@ async def status():
             <meta property="og:url" content="http://magmachain.herokuapp.com"/>
             <meta property="og:description" content="A fast screenshot API made by F4stZ4p#3507 and chr1s#7185."/>
             <meta name="theme-color" content="#D42A42">
-            <meta name="og:image" content="https://camo.githubusercontent.com/ada81cc539f272f5fb8e1931eb1fc157458cf06b/68747470733a2f2f692e696d6775722e636f6d2f5a706b4e7339322e706e67"/>
             
             <style>
                 hr {{

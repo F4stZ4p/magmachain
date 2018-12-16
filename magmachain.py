@@ -15,7 +15,8 @@ maincache = str()
 screen_count = 0
 process = psutil.Process()
 
-session = aiohttp.ClientSession()
+global session
+session = None
 
 with open("main.html", "r") as f:
     maincache = f.read()
@@ -36,7 +37,14 @@ browser = Chrome(
         }
     )
 
+async def init_session():
+    session = aiohttp.ClientSession()
+
 async def make_snapshot(website: str):
+    
+    if session is None:
+        await init_session()
+    
     async with get_session(service, browser) as session:
         await session.get(website)
         image = await session.get_screenshot()

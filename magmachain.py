@@ -69,7 +69,7 @@ class magmachain(Quart):
 # <h1 style="color:green; display:inline;">•</h1><h1 style="display:inline;"> Online</h1>
 
 if __name__ == "__main__":
-    app = magmalink()
+    app = magmachain(__name__)
     
     @app.route("/")
     async def main(app):

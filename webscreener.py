@@ -9,6 +9,9 @@ from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
 
 app = Quart(__name__)
+maincache = str()
+with open("main.html", "r") as f:
+    maincache = f.read()
 
 service = Chromedriver(log_file=os.devnull)
 browser = Chrome(
@@ -52,37 +55,7 @@ async def make_snapshot(website: str):
 
 @app.route("/")
 async def main():
-    return """
-    <html>
-    <head>
-    <style>
-    hr {
-        background-color:#FFFFFF
-    }
-    h1 {
-        color:#FFFFFF
-    }
-    </style>
-    <title>Web SnapShot API</title>
-    <body style="background-color: #7289DA;text-align:center;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-    <h1>
-    OwO, what's this? Made by F4stZ4p#3507 and chr1s#7185 with ❤
-    <hr>
-    Endpoints:<br>
-    POST /api/v1<br>
-    Takes a screenshot of a website and returns an Imgur URL.
-    <hr>
-    Headers:<br><code>{"website": "URL"}</code>
-    <hr>
-    Returns:<br>
-    <code>
-    {"snapshot": "URL", "website": "URL", "status": 200}
-    </code>
-    </h1>
-    </body>
-    </head>
-    </html>
-    """
+    return maincache
 
 @app.route("/api/v1", methods=["POST"])
 @app.route("/v1", methods=["POST"])

@@ -133,6 +133,4 @@ async def debug():
     </html>
     """
 
-@app.errorhandler
-async def 
 app.run(host="0.0.0.0", port=os.getenv("PORT"))

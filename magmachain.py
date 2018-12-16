@@ -15,6 +15,7 @@ maincache = str()
 screen_count = 0
 process = psutil.Process()
 
+global session
 session = None
 
 with open("main.html", "r") as f:

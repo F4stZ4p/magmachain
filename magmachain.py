@@ -43,11 +43,11 @@ class magmachain(Quart):
         self.session = aiohttp.ClientSession()
 
     async def make_snapshot(self, website: str):
-    
-        if session is None:
+
+        if self.session is None:
             await self.init_session()
     
-        async with get_session(service, browser) as session:
+        async with get_session(self.service, self.browser) as session:
             await session.get(website)
             image = await session.get_screenshot()
             image.seek(0)
@@ -92,7 +92,7 @@ if __name__ == "__main__":
             website = f"http://{website}"
 
         link = await app.make_snapshot(website)
-        self.screen_count += 1
+        app.screen_count += 1
         try:
         
             return jsonify({"snapshot": link, 

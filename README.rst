@@ -22,8 +22,8 @@
     <h4>What is magmachain?</h4>
         <p>magmachain is a Python API to take Snapshots of Websites</p>
 
-    <h4>What are magmalink features?</h4>
-       <p> Naoko has a lot of them: </p>
+    <h4>What are magmachain features?</h4>
+       <p> magmachain has a lot of them: </p>
        <ul>
            <li>Easy to use</li>
            <li>It is an API</li>

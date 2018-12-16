@@ -78,7 +78,10 @@ async def web_screenshot():
         website = f"http://{website}"
 
     try:
-        ip = request.remote_addr
+        if not request.environ.get('HTTP_X_FORWARDED_FOR'):
+            ip = request.environ['REMOTE_ADDR']
+        else:
+            ip = request.environ['HTTP_X_FORWARDED_FOR']
         try:
             ratelimits[ip]
         except KeyError:
@@ -106,7 +109,7 @@ async def debug():
     passwd = request.args.get("password")
     if not passwd:
         return "Unauthorized"
-    if not passwd.lower() == "69-420-meme":
+    if not passwd.lower() == os.environ.get("PASS"):
         return "Unauthorized"
     return f"""
     <html>
@@ -129,4 +132,7 @@ async def debug():
         </head>
     </html>
     """
+
+@app.errorhandler
+async def 
 app.run(host="0.0.0.0", port=os.getenv("PORT"))

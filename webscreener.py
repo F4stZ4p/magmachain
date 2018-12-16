@@ -13,7 +13,6 @@ app = Quart(__name__)
 maincache = str()
 with open("main.html", "r") as f:
     maincache = f.read()
-ratelimits = dict()
 
 service = Chromedriver(log_file=os.devnull)
 browser = Chrome(
@@ -77,19 +76,6 @@ async def web_screenshot():
     if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
 
-    try:
-        ip = request.environ["REMOTE_ADDR"]
-        try:
-            ratelimits[ip]
-        except KeyError:
-            ratelimits[ip] = 1
-        else:
-            if ratelimits[ip] >= 5:
-                await asyncio.sleep(5)
-                ratelimits[ip] = 0
-            ratelimits[ip] += 1
-    except:
-        return traceback.format_exc()
     link = await make_snapshot(website)
 
     try:

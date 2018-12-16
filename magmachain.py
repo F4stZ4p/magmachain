@@ -66,13 +66,17 @@ class magmachain(Quart):
                 
                 return link
 
+# <h1 style="color:green; display:inline;">•</h1><h1 style="display:inline;"> Online</h1>
 
-    @Quart.route("/")
-    async def main(self):
+if __name__ == "__main__":
+    app = magmalink()
+    
+    @app.route("/")
+    async def main(app):
         return maincache
 
-    @Quart.route("/api/v1", methods=["POST", "GET"])
-    async def web_screenshot(self):
+    @app.route("/api/v1", methods=["POST", "GET"])
+    async def web_screenshot(app):
 
         website = request.headers.get("website")
         if website is None:
@@ -87,7 +91,7 @@ class magmachain(Quart):
         if not (website.startswith("http://") or website.startswith("https://")):
             website = f"http://{website}"
 
-        link = await self.make_snapshot(website)
+        link = await app.make_snapshot(website)
         self.screen_count += 1
         try:
         
@@ -98,8 +102,8 @@ class magmachain(Quart):
         except Exception:
             return traceback.format_exc()
 
-    @Quart.route("/status")
-    async def status(self):
+    @app.route("/status")
+    async def status(app):
         return f"""
         <html>
             <head>
@@ -125,15 +129,12 @@ class magmachain(Quart):
                 </h1>
                 {os.environ.get("STATUS")}
                 <hr><h1>Screenshots taken:
-                {self.screen_count} screenshots!</h1>
+                {app.screen_count} screenshots!</h1>
                 <hr><h1>Memory usage:
-                {humanize.naturalsize(self.process.memory_full_info().uss)}</h1>
+                {humanize.naturalsize(app.process.memory_full_info().uss)}</h1>
             </body>
             </head>
         </html>
         """
-# <h1 style="color:green; display:inline;">•</h1><h1 style="display:inline;"> Online</h1>
 
-if __name__ == "__main__":
-    app = magmalink()
     app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

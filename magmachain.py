@@ -8,7 +8,7 @@ import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
-from quart import Quart, jsonify, request
+from quart import Quart, jsonify, request, render_template_string
 
 class magmachain(Quart):
     def __init__(self, *args, **kwargs):
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     
     @app.route("/")
     async def main():
-        return app.maincache
+        return await render_template_string(app.maincache)
 
     @app.route("/api/v1", methods=["POST", "GET"])
     async def web_screenshot():

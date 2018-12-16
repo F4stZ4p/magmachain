@@ -11,7 +11,7 @@ from arsenic.services import Chromedriver
 from quart import Quart, jsonify, request
 
 class magmachain(Quart):
-    def __init__(*args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.maincache = str()

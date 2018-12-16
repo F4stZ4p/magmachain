@@ -8,7 +8,7 @@
    <p align="center">
 
         <a href="https://github.com/F4stZ4p/magmachain">
-            <img src="https://img.shields.io/badge/magmachain%20version-1.0.0-B62E43.svg"/>
+            <img src="https://img.shields.io/badge/magmachain%20version-1.0.1-B62E43.svg"/>
         </a>
         <a href="https://python.org">
             <img src="https://img.shields.io/pypi/pyversions/Django.svg"/>

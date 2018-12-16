@@ -77,16 +77,19 @@ async def web_screenshot():
     if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
 
-    ip = request.remote_addr
     try:
-        ratelimits[ip]
-    except KeyError:
-        ratelimits[ip] = 1
-    else:
-        if ratelimits[ip] >= 5:
-            await asyncio.sleep(5)
-            ratelimits[ip] = 0
-        ratelimits[ip] += 1
+        ip = request.remote_addr
+        try:
+            ratelimits[ip]
+        except KeyError:
+            ratelimits[ip] = 1
+        else:
+            if ratelimits[ip] >= 5:
+                await asyncio.sleep(5)
+                ratelimits[ip] = 0
+            ratelimits[ip] += 1
+    except:
+        return traceback.format_exc()
     link = await make_snapshot(website)
 
     try:

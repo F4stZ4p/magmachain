@@ -72,11 +72,11 @@ if __name__ == "__main__":
     app = magmachain(__name__)
     
     @app.route("/")
-    async def main(app, *a, **kw):
+    async def main():
         return app.maincache
 
     @app.route("/api/v1", methods=["POST", "GET"])
-    async def web_screenshot(app, *a, **kw):
+    async def web_screenshot():
 
         website = request.headers.get("website")
         if website is None:
@@ -103,7 +103,7 @@ if __name__ == "__main__":
             return traceback.format_exc()
 
     @app.route("/status")
-    async def status(app, *a, **kw):
+    async def status():
         return f"""
         <html>
             <head>

@@ -67,11 +67,11 @@ class magmachain(Quart):
                 return link
 
 
-    @self.route("/")
+    @Quart.route("/")
     async def main(self):
         return maincache
 
-    @self.route("/api/v1", methods=["POST", "GET"])
+    @Quart.route("/api/v1", methods=["POST", "GET"])
     async def web_screenshot(self):
 
         website = request.headers.get("website")
@@ -98,7 +98,7 @@ class magmachain(Quart):
         except Exception:
             return traceback.format_exc()
 
-    @self.route("/status")
+    @Quart.route("/status")
     async def status(self):
         return f"""
         <html>

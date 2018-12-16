@@ -78,10 +78,7 @@ async def web_screenshot():
         website = f"http://{website}"
 
     try:
-        if not request.environ.get('HTTP_X_FORWARDED_FOR'):
-            ip = request.environ['REMOTE_ADDR']
-        else:
-            ip = request.environ['HTTP_X_FORWARDED_FOR']
+        ip = request.remote_addr
         try:
             ratelimits[ip]
         except KeyError:
@@ -133,4 +130,4 @@ async def debug():
     </html>
     """
 
-app.run(host="0.0.0.0", port=os.getenv("PORT"))
+app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

@@ -59,8 +59,8 @@ async def make_snapshot(website: str):
 async def main():
     return maincache
 
-@app.route("/api/v1", methods=["POST"])
-@app.route("/v1", methods=["POST"])
+@app.route("/api/v1", methods=["POST", "GET"])
+@app.route("/v1", methods=["POST", "GET"])
 async def web_screenshot():
 
     website = request.headers.get("website")

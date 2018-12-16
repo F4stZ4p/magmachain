@@ -109,13 +109,14 @@ async def status():
                 Status<hr>
             </h1>
             {os.environ.get("STATUS")}
-            <hr><h1>Screenshots taken<hr>
+            <hr><h1>Screenshots taken:
             {screen_count} screenshots!</h1>
-            <hr><h1>Memory usage<hr>
+            <hr><h1>Memory usage:
             {humanize.naturalsize(process.memory_full_info().uss)}</h1>
         </body>
         </head>
     </html>
     """
+# <h1 style="color:green; display:inline;">•</h1><h1 style="display:inline;"> Online</h1>
 
 app.run(host="0.0.0.0", port=os.getenv("PORT"), debug=True)

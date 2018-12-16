@@ -1,1 +1,1 @@
-web: python webscreener.py
+web: python magmachain.py

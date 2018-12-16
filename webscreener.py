@@ -78,7 +78,7 @@ async def web_screenshot():
         website = f"http://{website}"
 
     try:
-        ip = request.remote_addr
+        ip = request.environ["REMOTE_ADDR"]
         try:
             ratelimits[ip]
         except KeyError:

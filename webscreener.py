@@ -87,13 +87,8 @@ async def web_screenshot():
     except Exception:
         return traceback.format_exc()
 
-@app.route("/debug")
-async def debug():
-    passwd = request.args.get("password")
-    if not passwd:
-        return "Unauthorized"
-    if not passwd.lower() == os.environ.get("PASS"):
-        return "Unauthorized"
+@app.route("/status")
+async def status():
     return f"""
     <html>
         <head>
@@ -108,9 +103,9 @@ async def debug():
             <title>Screenshot API</title>
         <body style="background-color: #7289DA;text-align: center;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
             <h1>
-                Debug Panel<hr>
-                {ratelimits}
+                Status<hr>
             </h1>
+            {os.environ.get("STATUS")}
         </body>
         </head>
     </html>

@@ -1,17 +1,19 @@
-from quart import Quart
-from quart import request, jsonify
-import os
+import asyncio
 import gc
+import os
 import traceback
+
 import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
+from quart import Quart, jsonify, request
 
 app = Quart(__name__)
 maincache = str()
 with open("main.html", "r") as f:
     maincache = f.read()
+ratelimits = dict()
 
 service = Chromedriver(log_file=os.devnull)
 browser = Chrome(
@@ -75,7 +77,18 @@ async def web_screenshot():
     if not (website.startswith("http://") or website.startswith("https://")):
         website = f"http://{website}"
 
+    ip = request.remote_addr
+    try:
+        ratelimits[ip]
+    except KeyError:
+        ratelimits[ip] = 1
+    else:
+        if ratelimits[ip] >= 5:
+            await asyncio.sleep(5)
+            ratelimits[ip] = 0
+        ratelimits[ip] += 1
     link = await make_snapshot(website)
+
     try:
         
         return jsonify({"snapshot": link, 

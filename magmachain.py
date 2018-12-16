@@ -1,5 +1,4 @@
 import asyncio
-import gc
 import os
 import traceback
 
@@ -15,6 +14,9 @@ app = Quart(__name__)
 maincache = str()
 screen_count = 0
 process = psutil.Process()
+
+session = aiohttp.ClientSession()
+
 with open("main.html", "r") as f:
     maincache = f.read()
 
@@ -40,22 +42,19 @@ async def make_snapshot(website: str):
         image = await session.get_screenshot()
         image.seek(0)
 
-        async with aiohttp.ClientSession() as sess:
 
-            headers = {"Authorization": "Client-ID 6656d64547a5031"}
-            data = {"image": image}
+        headers = {"Authorization": "Client-ID 6656d64547a5031"}
+        data = {"image": image}
 
-            async with sess.post(
-                "https://api.imgur.com/3/image", data=data, headers=headers
-            ) as r:
-                link = (await r.json())["data"]["link"]
-
-                gc.collect()
+        async with session.post(
+            "https://api.imgur.com/3/image", data=data, headers=headers
+        ) as r:
+            
+            link = (await r.json())["data"]["link"]
                 
-                del image
-                del sess
+            del image
                 
-                return link
+            return link
 
 
 @app.route("/")

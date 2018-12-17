@@ -73,7 +73,7 @@ if __name__ == "__main__":
     
     @app.route("/")
     async def main():
-        return await render_template_string(app.maincache)
+        return self.maincache
 
     @app.route("/api/v1", methods=["POST", "GET"])
     async def web_screenshot():

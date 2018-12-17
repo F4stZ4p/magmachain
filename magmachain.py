@@ -10,7 +10,7 @@ from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
 from quart import Quart, jsonify, request, render_template_string
 
-class magmachain(Quart):
+class MagmaChain(Quart):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -69,7 +69,7 @@ class magmachain(Quart):
 # <h1 style="color:green; display:inline;">•</h1><h1 style="display:inline;"> Online</h1>
 
 if __name__ == "__main__":
-    app = magmachain(__name__)
+    app = MagmaChain(__name__)
     
     @app.route("/")
     async def main():
@@ -107,6 +107,7 @@ if __name__ == "__main__":
         return f"""
         <html>
             <head>
+            <link rel="icon" type="image/ico" href="favicon.ico">
             <meta property="og:title" content="MagmaChain" />
             <meta property="og:type" content="website" />
             <meta property="og:url" content="http://magmachain.herokuapp.com" />

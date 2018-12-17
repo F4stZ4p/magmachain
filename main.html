@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand" />
         <meta property="og:title" content="MagmaChain" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="http://magmachain.herokuapp.com" />
@@ -7,11 +8,14 @@
         <meta name="theme-color" content="#D42A42" />
         <meta property="og:image" content="https://camo.githubusercontent.com/ada81cc539f272f5fb8e1931eb1fc157458cf06b/68747470733a2f2f692e696d6775722e636f6d2f5a706b4e7339322e706e67" />
         <style>
+            h1 { color:#FFFFFF; font-family: Quicksand; font-size: 26px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } h3 { font-family: Quicksand; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } p { font-family: Quicksand; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } blockquote { font-family: Quicksand; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px; } pre { font-family: Quicksand; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 18.5714px; }
             hr {
             background-color:#FFFFFF
             }
-            h1 {
-            color:#FFFFFF
+            .link {
+            color:white;
+            text-decoration: none; 
+            background-color: none;
             }
         </style>
         <title>Screenshot API</title>
@@ -30,7 +34,27 @@
             {"snapshot": "URL", "website": "URL", "status": 200}
             </code>
             <hr>
-            <a href="https://gist.github.com/crrapi/215891a944af4b03249c07dd58067669">Example</a>
+            This is an
+            <a href="https://gist.github.com/crrapi/215891a944af4b03249c07dd58067669">
+                <div class="link" style="display:inline;">
+                        example
+                </div>
+            </a>
+            for the <code>discord.py@rewrite</code> library
+            <hr>
+
+            <pre><code>
+from discord.ext import commands
+import aiohttp
+
+@bot.command()
+@commands.cooldown(1, 5, commands.BucketType.guild)
+async def ss(self, ctx, *, url: str):
+    async with ctx.typing(), aiohttp.ClientSession() as session:
+        screener = "http://webscreener.herokuapp.com/api/v1"
+        async with session.post(screener, headers=dict(website=url)) as r:
+            website = (await r.json())["snapshot"]
+            await ctx.send(embed=discord.Embed(color=discord.Color.blurple()).set_image(url=website))</code></pre>
         </h1>
     </body>
     </head>

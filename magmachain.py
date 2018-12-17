@@ -17,8 +17,9 @@ class MagmaChain(Quart):
         self.maincache = str()
         self.screen_count = 0
         self.process = psutil.Process()
-
+        self.loop = asyncio.get_event_loop()
         self.session = None
+        self.pending = dict()
 
         with open("main.html", "r") as f:
             self.maincache = f.read()
@@ -52,7 +53,6 @@ class MagmaChain(Quart):
             image = await session.get_screenshot()
             image.seek(0)
 
-
             headers = {"Authorization": "Client-ID 6656d64547a5031"}
             data = {"image": image}
 
@@ -71,6 +71,17 @@ class MagmaChain(Quart):
 if __name__ == "__main__":
     app = MagmaChain(__name__)
     
+    async def handle_screens():
+        while True:
+            if app.pending:
+                for pending in app.pending.keys():
+                    await app.pending[pending]
+                    app.pending.update({pending: (app.pending[pending].result(), app.pending[pending])})
+                    await asyncio.sleep(3)
+            await asyncio.sleep(0.5)
+
+    app.loop.create_task(handle_screens())
+
     @app.route("/")
     async def main():
         return app.maincache
@@ -91,8 +102,11 @@ if __name__ == "__main__":
         if not (website.startswith("http://") or website.startswith("https://")):
             website = f"http://{website}"
 
-        link = await app.make_snapshot(website)
-        app.screen_count += 1
+        snap = asyncio.create_task(app.make_snapshot(website))
+        app.pending.update({website: snap})
+        while not isinstance(app.pending[website], tuple):
+            await asyncio.sleep(0.5)
+        link = (app.pending[website])[0]
         try:
         
             return jsonify({"snapshot": link, 

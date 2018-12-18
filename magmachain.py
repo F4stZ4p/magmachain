@@ -86,6 +86,10 @@ if __name__ == "__main__":
     async def main():
         return app.maincache
 
+    @app.route("/wakemydyno.txt")
+    async def wmd():
+        return "."
+
     @app.route("/api/v1", methods=["POST", "GET"])
     async def web_screenshot():
 

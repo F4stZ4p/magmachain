@@ -105,7 +105,7 @@ if __name__ == "__main__":
         try:
             snap = asyncio.Task(app.make_snapshot(website))
             app.pending.update({website: snap})
-            while not isinstance(app.pending[website], str):
+            while not isinstance(app.pending.get(website), str):
                 await asyncio.sleep(0.5)
             link = app.pending[website]
             del app.pending[website]

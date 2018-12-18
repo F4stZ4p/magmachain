@@ -75,8 +75,8 @@ if __name__ == "__main__":
         while True:
             if app.pending:
                 for pending in app.pending.keys():
-                    await app.pending[pending]
-                    app.pending.update({pending: (app.pending[pending].result(), app.pending[pending])})
+                    link = await app.pending[pending]
+                    app.pending.update({pending: link})
                     await asyncio.sleep(3)
             await asyncio.sleep(0.5)
 
@@ -105,11 +105,10 @@ if __name__ == "__main__":
         try:
             snap = asyncio.Task(app.make_snapshot(website))
             app.pending.update({website: snap})
-            while not isinstance(app.pending[website], tuple):
+            while not isinstance(app.pending[website], str):
                 await asyncio.sleep(0.5)
-            link = (app.pending[website])[0]
+            link = app.pending[website]
             del app.pending[website]
-        
             return jsonify({"snapshot": link, 
                             "website": website, 
                             "status": 200, 

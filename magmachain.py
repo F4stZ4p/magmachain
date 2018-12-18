@@ -108,6 +108,7 @@ if __name__ == "__main__":
             while not isinstance(app.pending[website], tuple):
                 await asyncio.sleep(0.5)
             link = (app.pending[website])[0]
+            del app.pending[website]
         
             return jsonify({"snapshot": link, 
                             "website": website, 

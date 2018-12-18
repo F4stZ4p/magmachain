@@ -103,7 +103,7 @@ if __name__ == "__main__":
             website = f"http://{website}"
 
         try:
-            snap = asyncio.Task(app.make_snapshot(website), app.loop)
+            snap = asyncio.Task(app.make_snapshot(website))
             app.pending.update({website: snap})
             while not isinstance(app.pending[website], tuple):
                 await asyncio.sleep(0.5)

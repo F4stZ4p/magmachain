@@ -74,7 +74,7 @@ if __name__ == "__main__":
     async def handle_screens():
         while True:
             if app.pending:
-                for pending in app.pending.keys():
+                for pending in list(app.pending.keys()):
                     link = await app.pending[pending]
                     app.pending.update({pending: link})
                     await asyncio.sleep(3)

@@ -109,6 +109,7 @@ if __name__ == "__main__":
                 await asyncio.sleep(0.5)
             link = app.pending[website]
             del app.pending[website]
+            app.screen_count += 1
             return jsonify({"snapshot": link, 
                             "website": website, 
                             "status": 200, 

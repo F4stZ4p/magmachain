@@ -17,7 +17,6 @@ class MagmaChain(Quart):
         self.maincache = str()
         self.screen_count = 0
         self.process = psutil.Process()
-        self.loop = asyncio.get_event_loop()
         self.session = None
         self.pending = dict()
 
@@ -70,25 +69,10 @@ class MagmaChain(Quart):
 
 if __name__ == "__main__":
     app = MagmaChain(__name__)
-    
-    async def handle_screens():
-        while True:
-            if app.pending:
-                for pending in list(app.pending.keys()):
-                    link = await app.pending[pending]
-                    app.pending.update({pending: link})
-                    await asyncio.sleep(3)
-            await asyncio.sleep(0.5)
-
-    app.loop.create_task(handle_screens())
 
     @app.route("/")
     async def main():
         return app.maincache
-
-    @app.route("/wakemydyno.txt")
-    async def wmd():
-        return "."
 
     @app.route("/api/v1", methods=["POST", "GET"])
     async def web_screenshot():
@@ -107,13 +91,7 @@ if __name__ == "__main__":
             website = f"http://{website}"
 
         try:
-            snap = asyncio.Task(app.make_snapshot(website))
-            app.pending.update({website: snap})
-            while not isinstance(app.pending.get(website), str):
-                await asyncio.sleep(0.5)
-            link = app.pending[website]
-            del app.pending[website]
-            app.screen_count += 1
+            link = await app.make_snapshot(website)
             return jsonify({"snapshot": link, 
                             "website": website, 
                             "status": 200, 

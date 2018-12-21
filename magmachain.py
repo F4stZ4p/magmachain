@@ -20,7 +20,7 @@ class MagmaChain(Quart):
         self.session = None
         self.pending = dict()
 
-        with open("main.html", "r") as f:
+        with open("test.html", "r") as f:
             self.maincache = f.read()
 
         self.service = Chromedriver(log_file=os.devnull)

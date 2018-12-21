@@ -102,7 +102,7 @@ if __name__ == "__main__":
     async def status():
         return await render_template(
             "status.html",
-            stats=os.environ.get("STATUS"),
+            msg=os.environ.get("MESSAGE"),
             count=app.screen_count,
             mem=humanize.naturalsize(app.process.memory_full_info().uss),
         )

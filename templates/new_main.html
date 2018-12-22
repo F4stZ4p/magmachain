@@ -2,6 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
@@ -88,6 +91,13 @@
     .account-heading {
       font-size: 2.5rem;
     }
+    
+    .link {
+            color:#B62E43;
+            text-decoration: none; 
+            background-color: none;
+    }
+
   </style>
   <title>MagmaChain</title>
 </head>
@@ -95,7 +105,7 @@
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
       <div class="container">
-        <a class="navbar-brand mr-4" href="">MagmaChain</a>
+        <a class="navbar-brand mr-4" href="#">MagmaChain</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -105,7 +115,7 @@
             <a class="nav-item nav-link" href="/old_main">Examples</a>
           </div>
           <div class="navbar-nav">
-            <a class="nav-item nav-link" href="#">Status</a>
+            <a class="nav-item nav-link" href="/status">Status</a>
             <a class="nav-item nav-link" href="#">News</a>
           </div>
         </div>
@@ -117,17 +127,39 @@
     <div class="row">
       <div class="col-md-8"></div>
       <div class="col-md-4">
-        <div class="content-section">
-          <h3>Other Links</h3>
-          <p class='text-muted'>Related
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-light"><a href="/old_main">Status</a></li>
-              <li class="list-group-item list-group-item-light"><a href="/old_main">News</a></li>
-            </ul>
-          </p>
-        </div>
       </div>
     </div>
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">MagmaChain Team</a><br>
+          <small class="text-muted">chr1s#6969 | F4stZ4p#1337</small>
+        </div>
+        <h2><a class="article-title" href="#">What is MagmaChain?</a></h2>
+        <h5 class="article-content">
+          MagmaChain is a REST API for screenshotting websites.
+          The service is completely free and will continue to get support.
+          Here is an <a href="https://gist.github.com/crrapi/215891a944af4b03249c07dd58067669"><div class="link" style="display:inline;">example</div></a> for the<code> discord.py@rewrite</code> library:
+          <hr>
+          <pre>
+            <code class="python">
+from discord.ext import commands
+import aiohttp
+
+@bot.command()
+@commands.cooldown(1, 5, commands.BucketType.guild)
+async def ss(self, ctx, *, url: str):
+  async with ctx.typing(), aiohttp.ClientSession() as session:
+      screener = "http://webscreener.herokuapp.com/api/v1"
+      async with session.post(screener, headers=dict(website=url)) as r:
+          website = (await r.json())["snapshot"]
+          await ctx.send(embed=discord.Embed(color=discord.Color.blurple()).set_image(url=website))
+            </code>
+          </pre>
+      </h1>
+        </h5>
+      </div>
+    </article>
   </main>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

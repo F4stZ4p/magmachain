@@ -8,7 +8,7 @@ import aiohttp
 from arsenic import get_session
 from arsenic.browsers import Chrome
 from arsenic.services import Chromedriver
-from quart import Quart, jsonify, request, render_template
+from quart import Quart, jsonify, request, render_template, send_from_directory
 
 
 class MagmaChain(Quart):
@@ -97,6 +97,10 @@ if __name__ == "__main__":
             return jsonify({"snapshot": link, "website": website, "status": 200})
         except Exception:
             return traceback.format_exc()
+
+    @app.route("/favicon.ico")
+    async def favicon():
+        return await send_from_directory(".", "favicon.ico")
 
     @app.route("/status")
     async def status():

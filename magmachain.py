@@ -26,12 +26,12 @@ class MagmaChain(Quart):
                 "args": [
                     "--headless",
                     "--hide-scrollbars",
-                    # "--no-gpu"
-                    # "--disable-gpu"
                     "--window-size=1366,768",
                     "--ipc-connection-timeout=10",
-                    "--max_old_space_size=20",
+                    "--max_old_space_size=10",
                     "--disable-mojo-local-storage",
+                    "--enable-async-event-targeting",
+                    "--enable-gpu-async-worker-context",
                 ]
             }
         )

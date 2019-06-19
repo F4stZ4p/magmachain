@@ -50,6 +50,8 @@ class MagmaChain(Quart):
             await asyncio.sleep(1)
 
         async with get_session(self.service, self.browser) as session:
+            
+            self.busy = True
 
             await session.get(website)
             image = await session.get_screenshot()

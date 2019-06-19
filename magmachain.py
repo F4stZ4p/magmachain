@@ -19,6 +19,8 @@ class MagmaChain(Quart):
         self.process = psutil.Process()
         self.session = None
         self.pending = dict()
+        
+        self.busy = False
 
         self.service = Chromedriver(log_file=os.devnull)
         self.browser = Chrome(
@@ -27,7 +29,7 @@ class MagmaChain(Quart):
                     "--headless",
                     "--hide-scrollbars",
                     "--window-size=1366,768",
-                    "--ipc-connection-timeout=10",
+                    "--ipc-connection-timeout=5",
                     "--max_old_space_size=10",
                     "--disable-mojo-local-storage",
                     "--enable-async-event-targeting",
@@ -43,11 +45,17 @@ class MagmaChain(Quart):
 
         if self.session is None:
             await self.init_session()
+            
+        while self.busy:
+            await asyncio.sleep(1)
 
         async with get_session(self.service, self.browser) as session:
+
             await session.get(website)
             image = await session.get_screenshot()
             image.seek(0)
+            
+            session.close()
 
             headers = {"Authorization": "Client-ID 6656d64547a5031"}
             data = {"image": image}
@@ -57,9 +65,11 @@ class MagmaChain(Quart):
             ) as r:
 
                 link = (await r.json())["data"]["link"]
+                r.close()
 
                 del image
-
+                
+                self.busy = False
                 return link
 
 

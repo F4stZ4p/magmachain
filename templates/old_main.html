@@ -85,7 +85,7 @@ import aiohttp
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.guild)
-async def ss(self, ctx, *, url: str):
+async def ss(ctx, *, url: str):
     async with ctx.typing(), aiohttp.ClientSession() as session:
         screener = "http://webscreener.herokuapp.com/api/v1"
         async with session.post(screener, headers=dict(website=url)) as r:

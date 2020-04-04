@@ -54,6 +54,7 @@ class MagmaChain(Quart):
             self.busy = True
 
             await session.get(website)
+            await asyncio.sleep(5)
             image = await session.get_screenshot()
             image.seek(0)
             
@@ -106,6 +107,7 @@ if __name__ == "__main__":
 
         try:
             link = await app.make_snapshot(website)
+            app.screen_count += 1
             return jsonify({"snapshot": link, "website": website, "status": 200})
         except Exception:
             return traceback.format_exc()

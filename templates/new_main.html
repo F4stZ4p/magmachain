@@ -145,7 +145,7 @@
       <div class="media-body">
         <div class="article-metadata">
           <a class="mr-2" href="#">MagmaChain Team</a><br>
-          <small class="text-muted">chr1s#6969 | F4stZ4p#1337</small>
+          <small class="text-muted">chr1s#7536 | F4stZ4p#1337</small>
         </div>
         <h2><a class="article-title" href="#">What is MagmaChain?</a></h2>
         <h5 class="article-content container">
@@ -159,7 +159,7 @@ import aiohttp
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.guild)
-async def ss(self, ctx, *, url: str):
+async def ss(ctx, *, url: str):
   async with ctx.typing(), aiohttp.ClientSession() as session:
       screener = "http://magmachain.herokuapp.com/api/v1"
       async with session.post(screener, headers=dict(website=url)) as r:

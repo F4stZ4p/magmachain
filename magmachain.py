@@ -54,7 +54,6 @@ class MagmaChain(Quart):
             self.busy = True
 
             await session.get(website)
-            await asyncio.sleep(5)
             image = await session.get_screenshot()
             image.seek(0)
             

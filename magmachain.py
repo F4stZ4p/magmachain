@@ -33,6 +33,8 @@ class MagmaChain(Quart):
                     "--disable-mojo-local-storage",
                     "--enable-async-event-targeting",
                     "--enable-gpu-async-worker-context",
+                    "--no-sandbox",
+                    "--limit-fps=1"
                 ]
             }
         )

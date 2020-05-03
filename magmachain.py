@@ -34,7 +34,8 @@ class MagmaChain(Quart):
                     "--enable-async-event-targeting",
                     "--enable-gpu-async-worker-context",
                     "--no-sandbox",
-                    "--limit-fps=1"
+                    "--limit-fps=1",
+                    "--disable-dev-shm-usage"
                 ]
             }
         )
@@ -52,7 +53,7 @@ class MagmaChain(Quart):
                 image = await session.get_screenshot()
                 image.seek(0)
                 
-                session.close()
+                await session.close()
 
                 headers = {"Authorization": "Client-ID 6656d64547a5031"}
                 data = {"image": image}

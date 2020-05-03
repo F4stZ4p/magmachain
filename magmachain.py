@@ -41,7 +41,7 @@ class MagmaChain(Quart):
         self.session = aiohttp.ClientSession()
 
     async def make_snapshot(self, website: str):
-        async with self.ss_lock.acquire():
+        async with self.ss_lock:
             if self.session is None:
                 await self.init_session()
 

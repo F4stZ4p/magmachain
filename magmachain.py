@@ -19,8 +19,7 @@ class MagmaChain(Quart):
         self.process = psutil.Process()
         self.session = None
         self.pending = dict()
-        
-        self.busy = False
+        self.ss_lock = asyncio.Lock()
 
         self.service = Chromedriver(log_file=os.devnull)
         self.browser = Chrome(
@@ -42,37 +41,29 @@ class MagmaChain(Quart):
         self.session = aiohttp.ClientSession()
 
     async def make_snapshot(self, website: str):
+        async with self.ss_lock.acquire():
+            if self.session is None:
+                await self.init_session()
 
-        if self.session is None:
-            await self.init_session()
-            
-        while self.busy:
-            await asyncio.sleep(1)
-
-        async with get_session(self.service, self.browser) as session:
-            
-            self.busy = True
-
-            await session.get(website)
-            image = await session.get_screenshot()
-            image.seek(0)
-            
-            session.close()
-
-            headers = {"Authorization": "Client-ID 6656d64547a5031"}
-            data = {"image": image}
-
-            async with self.session.post(
-                "https://api.imgur.com/3/image", data=data, headers=headers
-            ) as r:
-
-                link = (await r.json())["data"]["link"]
-                r.close()
-
-                del image
+            async with get_session(self.service, self.browser) as session:
+                await session.get(website)
+                image = await session.get_screenshot()
+                image.seek(0)
                 
-                self.busy = False
-                return link
+                session.close()
+
+                headers = {"Authorization": "Client-ID 6656d64547a5031"}
+                data = {"image": image}
+
+                async with self.session.post(
+                    "https://api.imgur.com/3/image", data=data, headers=headers
+                ) as r:
+
+                    link = (await r.json())["data"]["link"]
+                    r.close()
+
+                    del image
+                    return link
 
 
 # <h1 style="color:green; display:inline;">•</h1><h1 style="display:inline;"> Online</h1>
